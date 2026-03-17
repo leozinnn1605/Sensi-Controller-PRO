@@ -23,6 +23,8 @@
     --red: #ef4444;
     --red-2: #fb7185;
     --cyan: #38bdf8;
+    --orange: #f59e0b;
+    --orange-2: #f97316;
     --shadow: 0 24px 64px rgba(0,0,0,0.42);
     --radius: 26px;
   }
@@ -152,6 +154,11 @@
   .history-btn {
     background: linear-gradient(135deg, #4f46e5, #7c3aed);
     box-shadow: 0 12px 28px rgba(99, 102, 241, 0.28);
+  }
+
+  .reset-btn {
+    background: linear-gradient(135deg, var(--orange), var(--orange-2));
+    box-shadow: 0 12px 28px rgba(249, 115, 22, 0.28);
   }
 
   .gear-btn {
@@ -723,6 +730,7 @@
 
       <div class="title-actions">
         <button id="openHistoryBtn" class="icon-btn history-btn" type="button" title="Histórico">📜</button>
+        <button id="resetSensiBtn" class="icon-btn reset-btn" type="button" title="Resetar sensi">↺</button>
         <button id="openSettingsBtn" class="icon-btn gear-btn" type="button" title="Configurações">⚙️</button>
       </div>
     </div>
@@ -987,6 +995,23 @@
     localStorage.setItem("sensiAnterior", String(sensiAnterior));
   }
 
+  function resetarSensi() {
+    const confirmar = confirm("Deseja resetar a sensi atual e a anterior para 0.000?");
+    if (!confirmar) return;
+
+    sensi = 0;
+    sensiAnterior = 0;
+
+    atualEl.textContent = format3(sensi);
+    anteriorEl.textContent = format3(sensiAnterior);
+
+    localStorage.setItem("sensiAtual", String(sensi));
+    localStorage.setItem("sensiAnterior", String(sensiAnterior));
+
+    statusTextEl.textContent = "Sensi resetada para 0.000.";
+    showToast("Sensi resetada");
+  }
+
   function renderRegras() {
     rulesLineEl.textContent =
       `Mín: ${format3(config.sensiMin)} • Máx: ${format3(config.sensiMax)} • Cada unidade muda ${format3(config.variacaoPorUnidade)}`;
@@ -1119,9 +1144,9 @@
       config = nova;
       salvarConfig(config);
 
-      if (sensi < config.sensiMin) sensi = config.sensiMin;
+      if (sensi < config.sensiMin && sensi !== 0) sensi = config.sensiMin;
       if (sensi > config.sensiMax) sensi = config.sensiMax;
-      if (sensiAnterior < config.sensiMin) sensiAnterior = config.sensiMin;
+      if (sensiAnterior < config.sensiMin && sensiAnterior !== 0) sensiAnterior = config.sensiMin;
       if (sensiAnterior > config.sensiMax) sensiAnterior = config.sensiMax;
 
       sensi = Number(sensi.toFixed(3));
@@ -1490,6 +1515,7 @@
 
   document.getElementById("btnSubir").addEventListener("click", () => aplicarMudanca("up"));
   document.getElementById("btnDescer").addEventListener("click", () => aplicarMudanca("down"));
+  document.getElementById("resetSensiBtn").addEventListener("click", resetarSensi);
 
   document.getElementById("btnHistorico").addEventListener("click", abrirHistorico);
   document.getElementById("openHistoryBtn").addEventListener("click", abrirHistorico);
