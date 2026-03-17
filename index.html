@@ -112,12 +112,30 @@
   }
 
   .live-title-line {
-    margin-top: 10px;
-    min-height: 26px;
+    margin-top: 14px;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     gap: 10px;
     flex-wrap: wrap;
+  }
+
+  .live-title-box {
+    flex: 1;
+    min-width: 260px;
+    padding: 12px 14px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(192,132,252,0.06));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+
+  .live-title-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 800;
   }
 
   .live-title-display {
@@ -125,6 +143,9 @@
     font-weight: 800;
     text-shadow: 0 0 14px rgba(192,132,252,0.18);
     word-break: break-word;
+    font-size: 1rem;
+    line-height: 1.35;
+    min-height: 22px;
   }
 
   .small-btn {
@@ -137,6 +158,7 @@
     font-size: 0.8rem;
     font-weight: 700;
     transition: 0.16s ease;
+    align-self: center;
   }
 
   .small-btn:hover {
@@ -255,7 +277,7 @@
 
   .metrics {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
 
@@ -290,11 +312,6 @@
     text-shadow: 0 0 18px rgba(244,114,182,0.14);
   }
 
-  .metric-preview .metric-value {
-    color: #fde68a;
-    text-shadow: 0 0 18px rgba(250,204,21,0.14);
-  }
-
   .rules-line {
     margin-top: 14px;
     text-align: center;
@@ -304,12 +321,55 @@
   }
 
   .preview-line {
-    margin-top: 12px;
-    text-align: center;
-    color: #e9d5ff;
-    font-size: 0.92rem;
-    line-height: 1.45;
-    min-height: 24px;
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .preview-box {
+    border-radius: 16px;
+    padding: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .preview-box.up {
+    box-shadow: inset 0 0 0 1px rgba(34,197,94,0.08);
+  }
+
+  .preview-box.down {
+    box-shadow: inset 0 0 0 1px rgba(239,68,68,0.08);
+  }
+
+  .preview-title {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    color: var(--muted);
+    font-weight: 800;
+  }
+
+  .preview-value {
+    font-size: 1.35rem;
+    font-weight: 900;
+    line-height: 1.1;
+  }
+
+  .preview-box.up .preview-value {
+    color: #86efac;
+  }
+
+  .preview-box.down .preview-value {
+    color: #fda4af;
+  }
+
+  .preview-sub {
+    margin-top: 6px;
+    color: #dbe4ff;
+    font-size: 0.88rem;
+    line-height: 1.35;
   }
 
   .pill-row {
@@ -317,7 +377,7 @@
     flex-wrap: wrap;
     gap: 8px;
     justify-content: center;
-    margin-top: 12px;
+    margin-top: 14px;
   }
 
   .pill {
@@ -769,6 +829,7 @@
   @media (max-width: 760px) {
     .panel { width: min(100%, 650px); }
     .metrics { grid-template-columns: 1fr; }
+    .preview-line { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 620px) {
@@ -792,7 +853,10 @@
         </div>
 
         <div class="live-title-line">
-          <div id="liveTitleDisplay" class="live-title-display"></div>
+          <div class="live-title-box">
+            <div class="live-title-label">Live atual</div>
+            <div id="liveTitleDisplay" class="live-title-display"></div>
+          </div>
           <button id="editLiveBtn" class="small-btn" type="button" style="display:none;">Editar título</button>
         </div>
       </div>
@@ -829,22 +893,30 @@
       <div class="metrics">
         <div class="metric metric-current">
           <div class="metric-label">Sensi atual</div>
-          <div id="atual" class="metric-value">0.080</div>
+          <div id="atual" class="metric-value">0.000</div>
         </div>
 
         <div class="metric metric-prev">
           <div class="metric-label">Anterior</div>
-          <div id="anterior" class="metric-value">0.080</div>
-        </div>
-
-        <div class="metric metric-preview">
-          <div class="metric-label">Prévia</div>
-          <div id="previewMetric" class="metric-value">0.080</div>
+          <div id="anterior" class="metric-value">0.000</div>
         </div>
       </div>
 
       <div id="rulesLine" class="rules-line"></div>
-      <div id="previewLine" class="preview-line">Digite um valor para ver a prévia.</div>
+
+      <div class="preview-line">
+        <div class="preview-box up">
+          <div class="preview-title">⬆️ Se subir</div>
+          <div id="previewUpValue" class="preview-value">0.000</div>
+          <div id="previewUpSub" class="preview-sub">Digite um valor para ver a prévia.</div>
+        </div>
+
+        <div class="preview-box down">
+          <div class="preview-title">⬇️ Se descer</div>
+          <div id="previewDownValue" class="preview-value">0.000</div>
+          <div id="previewDownSub" class="preview-sub">Digite um valor para ver a prévia.</div>
+        </div>
+      </div>
 
       <div class="pill-row">
         <div id="pillPix" class="pill"></div>
@@ -950,7 +1022,7 @@
 
           <div class="config-field">
             <label for="cfgSensiInicial">Sensi inicial padrão</label>
-            <input id="cfgSensiInicial" class="input" type="number" min="0.001" step="0.001" />
+            <input id="cfgSensiInicial" class="input" type="number" min="0" step="0.001" />
           </div>
         </div>
       </div>
@@ -1035,7 +1107,7 @@
     variacaoPorUnidade: 0.05,
     sensiMin: 0.08,
     sensiMax: 2.25,
-    sensiInicial: 0.08,
+    sensiInicial: 0.000,
     permitirFracionado: true,
     limparValorAposAplicar: true,
     manterNickPreenchido: true,
@@ -1052,8 +1124,10 @@
 
   const atualEl = document.getElementById("atual");
   const anteriorEl = document.getElementById("anterior");
-  const previewMetricEl = document.getElementById("previewMetric");
-  const previewLineEl = document.getElementById("previewLine");
+  const previewUpValueEl = document.getElementById("previewUpValue");
+  const previewDownValueEl = document.getElementById("previewDownValue");
+  const previewUpSubEl = document.getElementById("previewUpSub");
+  const previewDownSubEl = document.getElementById("previewDownSub");
   const rulesLineEl = document.getElementById("rulesLine");
   const pillPixEl = document.getElementById("pillPix");
   const pillBitsEl = document.getElementById("pillBits");
@@ -1195,7 +1269,7 @@
       liveSetup.classList.add("hidden");
       editLiveBtn.style.display = "inline-block";
     } else {
-      liveTitleDisplay.textContent = "";
+      liveTitleDisplay.textContent = "Nenhuma live definida";
       liveSetup.classList.remove("hidden");
       editLiveBtn.style.display = "none";
     }
@@ -1316,13 +1390,9 @@
       config = nova;
       salvarConfig(config);
 
-      if (sensi < config.sensiMin && sensi !== 0) sensi = config.sensiMin;
-      if (sensi > config.sensiMax) sensi = config.sensiMax;
-      if (sensiAnterior < config.sensiMin && sensiAnterior !== 0) sensiAnterior = config.sensiMin;
-      if (sensiAnterior > config.sensiMax) sensiAnterior = config.sensiMax;
-
-      sensi = Number(sensi.toFixed(3));
-      sensiAnterior = Number(sensiAnterior.toFixed(3));
+      const usarSensiInicial = Number(config.sensiInicial.toFixed(3));
+      sensi = usarSensiInicial;
+      sensiAnterior = usarSensiInicial;
 
       localStorage.setItem("sensiAtual", String(sensi));
       localStorage.setItem("sensiAnterior", String(sensiAnterior));
@@ -1331,7 +1401,7 @@
       renderRegras();
       atualizarPreview();
       fecharSettings();
-      statusTextEl.textContent = "Configurações salvas com sucesso.";
+      statusTextEl.textContent = `Configurações salvas. Sensi atual definida para ${format3(sensi)}.`;
       showToast("Configurações salvas");
     } catch (erro) {
       alert(erro.message);
@@ -1709,15 +1779,20 @@
     const info = getPreviewInfo();
 
     if (!info.valido) {
-      previewLineEl.textContent = info.texto;
-      previewMetricEl.textContent = format3(sensi);
+      previewUpValueEl.textContent = format3(sensi);
+      previewDownValueEl.textContent = format3(sensi);
+      previewUpSubEl.textContent = info.texto;
+      previewDownSubEl.textContent = info.texto;
       return;
     }
 
     const doacaoTexto = montarDoacaoTexto(info.valor, info.tipoDoacao);
-    previewMetricEl.textContent = format3(info.subir);
-    previewLineEl.textContent =
-      `${info.nick} • ${doacaoTexto} • subir: ${format3(info.subir)} • descer: ${format3(info.descer)} • variação: ${format3(info.variacao)}`;
+
+    previewUpValueEl.textContent = format3(info.subir);
+    previewDownValueEl.textContent = format3(info.descer);
+
+    previewUpSubEl.textContent = `${info.nick} • ${doacaoTexto} • +${format3(info.variacao)}`;
+    previewDownSubEl.textContent = `${info.nick} • ${doacaoTexto} • -${format3(info.variacao)}`;
   }
 
   function renderPresetOptions() {
@@ -1951,7 +2026,7 @@
         <div class="live-card" data-live-index="${liveIndex}">
           <button class="live-header" type="button" onclick="toggleLive(${liveIndex})">
             <div class="live-left">
-              <div class="arrow">▶</div>
+              <div class="arrow">▶️</div>
               <div class="live-title-group">
                 <div class="live-name">${escapeHtml(live.titulo)}</div>
                 <div class="live-date">${escapeHtml(live.data)}</div>
@@ -2021,11 +2096,7 @@
   }
 
   function copiarPreview() {
-    const texto = previewLineEl.textContent.trim();
-    if (!texto) {
-      alert("Não há prévia para copiar.");
-      return;
-    }
+    const texto = `⬆️ Se subir: ${previewUpValueEl.textContent} | ⬇️ Se descer: ${previewDownValueEl.textContent}`;
     copiarTexto(texto, "Prévia copiada");
   }
 
