@@ -25,6 +25,12 @@
     --cyan: #38bdf8;
     --orange: #f59e0b;
     --orange-2: #f97316;
+    --yellow: #facc15;
+    --yellow-2: #eab308;
+    --teal: #14b8a6;
+    --teal-2: #2dd4bf;
+    --blue: #0ea5e9;
+    --blue-2: #38bdf8;
     --shadow: 0 24px 64px rgba(0,0,0,0.42);
     --radius: 26px;
   }
@@ -44,7 +50,7 @@
   }
 
   .panel {
-    width: min(100%, 560px);
+    width: min(100%, 760px);
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -93,6 +99,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
   h1 {
@@ -142,7 +150,7 @@
     border: none;
     border-radius: 16px;
     color: white;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     cursor: pointer;
     transition: 0.16s ease;
   }
@@ -154,6 +162,16 @@
   .history-btn {
     background: linear-gradient(135deg, #4f46e5, #7c3aed);
     box-shadow: 0 12px 28px rgba(99, 102, 241, 0.28);
+  }
+
+  .undo-btn {
+    background: linear-gradient(135deg, var(--blue), var(--blue-2));
+    box-shadow: 0 12px 28px rgba(56, 189, 248, 0.28);
+  }
+
+  .redo-btn {
+    background: linear-gradient(135deg, var(--teal), var(--teal-2));
+    box-shadow: 0 12px 28px rgba(45, 212, 191, 0.28);
   }
 
   .reset-btn {
@@ -174,9 +192,8 @@
 
   .live-setup.hidden { display: none; }
 
-  .input, .select {
+  .input, .select, .textarea {
     width: 100%;
-    height: 52px;
     border-radius: 15px;
     border: 1px solid var(--border-soft);
     background: rgba(8, 10, 20, 0.58);
@@ -187,11 +204,23 @@
     transition: 0.16s ease;
   }
 
-  .input::placeholder {
+  .input, .select {
+    height: 52px;
+  }
+
+  .textarea {
+    min-height: 96px;
+    resize: vertical;
+    padding: 12px 14px;
+    font-family: inherit;
+  }
+
+  .input::placeholder,
+  .textarea::placeholder {
     color: #8c93bc;
   }
 
-  .input:focus, .select:focus {
+  .input:focus, .select:focus, .textarea:focus {
     border-color: var(--purple);
     box-shadow: 0 0 0 4px rgba(139,92,246,0.14);
   }
@@ -212,13 +241,9 @@
     gap: 12px;
   }
 
-  .two {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .single {
-    grid-template-columns: 1fr;
-  }
+  .two { grid-template-columns: 1fr 1fr; }
+  .three { grid-template-columns: 1fr 1fr 1fr; }
+  .single { grid-template-columns: 1fr; }
 
   .sensi-card {
     margin: 18px 0 16px;
@@ -230,7 +255,7 @@
 
   .metrics {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 12px;
   }
 
@@ -265,12 +290,26 @@
     text-shadow: 0 0 18px rgba(244,114,182,0.14);
   }
 
+  .metric-preview .metric-value {
+    color: #fde68a;
+    text-shadow: 0 0 18px rgba(250,204,21,0.14);
+  }
+
   .rules-line {
     margin-top: 14px;
     text-align: center;
     color: var(--muted);
     font-size: 0.9rem;
     line-height: 1.5;
+  }
+
+  .preview-line {
+    margin-top: 12px;
+    text-align: center;
+    color: #e9d5ff;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    min-height: 24px;
   }
 
   .pill-row {
@@ -297,8 +336,15 @@
     margin-top: 14px;
   }
 
+  .action-tools {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
   .btn {
-    height: 54px;
+    min-height: 54px;
     border: none;
     border-radius: 18px;
     color: white;
@@ -306,6 +352,7 @@
     font-weight: 900;
     cursor: pointer;
     transition: 0.16s ease;
+    padding: 10px 14px;
   }
 
   .btn:hover { transform: translateY(-1px); }
@@ -318,6 +365,16 @@
   .btn-down {
     background: linear-gradient(135deg, var(--red), var(--red-2));
     box-shadow: 0 16px 30px rgba(239,68,68,0.24);
+  }
+
+  .btn-manual {
+    background: linear-gradient(135deg, var(--blue), var(--blue-2));
+    box-shadow: 0 16px 30px rgba(56,189,248,0.22);
+  }
+
+  .btn-fields {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    box-shadow: 0 16px 30px rgba(107,114,128,0.22);
   }
 
   .footer-buttons {
@@ -359,6 +416,7 @@
     display: flex;
     gap: 8px;
     align-items: center;
+    flex-wrap: wrap;
   }
 
   .tiny-btn {
@@ -401,7 +459,7 @@
   .drawer {
     position: fixed;
     top: 0;
-    width: min(100%, 420px);
+    width: min(100%, 460px);
     height: 100vh;
     background: rgba(14, 17, 34, 0.96);
     box-shadow: 0 0 60px rgba(0,0,0,0.34);
@@ -512,11 +570,14 @@
     background: linear-gradient(135deg, #6b7280, #4b5563);
   }
 
-  .history-tools {
+  .history-tools,
+  .filter-tools,
+  .preset-tools,
+  .export-tools {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .history-tool-btn {
@@ -531,6 +592,8 @@
 
   .copy-btn { background: linear-gradient(135deg, #4f46e5, #8b5cf6); }
   .clear-btn { background: linear-gradient(135deg, #dc2626, #ef4444); }
+  .export-btn { background: linear-gradient(135deg, var(--blue), var(--blue-2)); }
+  .preset-btn { background: linear-gradient(135deg, #7c3aed, #8b5cf6); }
 
   .history-empty {
     text-align: center;
@@ -678,6 +741,7 @@
 
   .copy-live-btn { background: linear-gradient(135deg, #7c3aed, #8b5cf6); }
   .delete-btn { background: linear-gradient(135deg, #dc2626, #ef4444); }
+  .use-btn { background: linear-gradient(135deg, #16a34a, #22c55e); }
 
   .toast {
     position: fixed;
@@ -702,9 +766,14 @@
     transform: translateX(-50%) translateY(0);
   }
 
+  @media (max-width: 760px) {
+    .panel { width: min(100%, 650px); }
+    .metrics { grid-template-columns: 1fr; }
+  }
+
   @media (max-width: 620px) {
     .panel { padding: 20px; }
-    .two, .metrics, .buttons, .live-setup, .drawer-footer, .config-grid, .history-tools, .record-grid {
+    .two, .three, .metrics, .buttons, .action-tools, .live-setup, .drawer-footer, .config-grid, .history-tools, .record-grid, .filter-tools, .preset-tools, .export-tools {
       grid-template-columns: 1fr;
       display: grid;
     }
@@ -730,6 +799,8 @@
 
       <div class="title-actions">
         <button id="openHistoryBtn" class="icon-btn history-btn" type="button" title="Histórico">📜</button>
+        <button id="undoBtn" class="icon-btn undo-btn" type="button" title="Desfazer">↶</button>
+        <button id="redoBtn" class="icon-btn redo-btn" type="button" title="Refazer">↷</button>
         <button id="resetSensiBtn" class="icon-btn reset-btn" type="button" title="Resetar sensi">↺</button>
         <button id="openSettingsBtn" class="icon-btn gear-btn" type="button" title="Configurações">⚙️</button>
       </div>
@@ -744,13 +815,14 @@
       <input id="nick" class="input" type="text" placeholder="Nick de quem doou" maxlength="60" />
     </div>
 
-    <div class="grid two" style="margin-top:12px;">
+    <div class="grid three" style="margin-top:12px;">
       <select id="tipo" class="select">
         <option value="pix">PIX (R$)</option>
         <option value="bits">Bits</option>
       </select>
 
       <input id="valor" class="input" type="number" min="0" step="0.01" placeholder="Valor" />
+      <input id="manualSensiInput" class="input" type="number" min="0" step="0.001" placeholder="Ajuste manual" />
     </div>
 
     <div class="sensi-card">
@@ -764,19 +836,33 @@
           <div class="metric-label">Anterior</div>
           <div id="anterior" class="metric-value">0.080</div>
         </div>
+
+        <div class="metric metric-preview">
+          <div class="metric-label">Prévia</div>
+          <div id="previewMetric" class="metric-value">0.080</div>
+        </div>
       </div>
 
       <div id="rulesLine" class="rules-line"></div>
+      <div id="previewLine" class="preview-line">Digite um valor para ver a prévia.</div>
 
       <div class="pill-row">
         <div id="pillPix" class="pill"></div>
         <div id="pillBits" class="pill"></div>
+        <div id="pillTotalLive" class="pill"></div>
+        <div id="pillCountLive" class="pill"></div>
+        <div id="pillUpDownLive" class="pill"></div>
       </div>
     </div>
 
     <div class="buttons">
       <button id="btnSubir" class="btn btn-up" type="button">⬆️ Subir</button>
       <button id="btnDescer" class="btn btn-down" type="button">⬇️ Descer</button>
+    </div>
+
+    <div class="action-tools">
+      <button id="applyManualBtn" class="btn btn-manual" type="button">🎯 Aplicar sensi manual</button>
+      <button id="clearFieldsBtn" class="btn btn-fields" type="button">🧹 Limpar campos</button>
     </div>
 
     <div class="footer-buttons">
@@ -788,6 +874,7 @@
         <div class="status-label">Última ação</div>
         <div class="status-tools">
           <button id="copyLastActionBtn" class="tiny-btn" type="button">📋 Copiar</button>
+          <button id="copyPreviewBtn" class="tiny-btn" type="button">✨ Copiar prévia</button>
         </div>
       </div>
       <div id="statusText" class="status-text">Nenhuma alteração aplicada ainda.</div>
@@ -803,9 +890,28 @@
     </div>
 
     <div class="drawer-content">
+      <div class="config-section">
+        <h3>Filtros</h3>
+        <div class="filter-tools">
+          <input id="historySearchInput" class="input" type="text" placeholder="Buscar por nick..." />
+          <select id="historyTipoFilter" class="select">
+            <option value="all">Todos os tipos</option>
+            <option value="pix">Só PIX</option>
+            <option value="bits">Só bits</option>
+          </select>
+          <input id="historyDateFilter" class="input" type="date" />
+          <button id="clearHistoryFiltersBtn" class="history-tool-btn preset-btn" type="button">Limpar filtros</button>
+        </div>
+      </div>
+
       <div class="history-tools">
         <button id="copyAllHistoryBtn" class="history-tool-btn copy-btn" type="button">📋 Copiar tudo</button>
         <button id="clearHistoryBtn" class="history-tool-btn clear-btn" type="button">🗑️ Limpar tudo</button>
+      </div>
+
+      <div class="export-tools">
+        <button id="exportTxtBtn" class="history-tool-btn export-btn" type="button">⬇️ Exportar TXT</button>
+        <button id="exportCsvBtn" class="history-tool-btn export-btn" type="button">⬇️ Exportar CSV</button>
       </div>
 
       <div id="historyList"></div>
@@ -865,8 +971,38 @@
       </div>
 
       <div class="config-section">
-        <h3>Comportamento</h3>
+        <h3>Frase para o chat</h3>
+        <div class="config-field">
+          <label for="cfgMessageTemplate">Template</label>
+          <textarea id="cfgMessageTemplate" class="textarea" placeholder="{nick} • {doacao} • {acao} {sinal}{variacao} • sensi atual {sensi}"></textarea>
+        </div>
+        <div class="pill-row" style="justify-content:flex-start;">
+          <div class="pill">{nick}</div>
+          <div class="pill">{doacao}</div>
+          <div class="pill">{acao}</div>
+          <div class="pill">{sinal}</div>
+          <div class="pill">{variacao}</div>
+          <div class="pill">{sensi}</div>
+          <div class="pill">{antes}</div>
+        </div>
+      </div>
 
+      <div class="config-section">
+        <h3>Presets</h3>
+        <div class="preset-tools">
+          <input id="presetNameInput" class="input" type="text" placeholder="Nome do preset" />
+          <select id="presetSelect" class="select">
+            <option value="">Selecione um preset</option>
+          </select>
+          <button id="savePresetBtn" class="history-tool-btn preset-btn" type="button">💾 Salvar preset</button>
+          <button id="loadPresetBtn" class="history-tool-btn preset-btn" type="button">📥 Carregar preset</button>
+          <button id="deletePresetBtn" class="history-tool-btn clear-btn" type="button">🗑️ Excluir preset</button>
+          <button id="exportConfigBtn" class="history-tool-btn export-btn" type="button">⬇️ Exportar config</button>
+        </div>
+      </div>
+
+      <div class="config-section">
+        <h3>Comportamento</h3>
         <label class="checkbox-row">
           <span>Usar valores proporcionais</span>
           <input id="cfgPermitirFracionado" type="checkbox" />
@@ -902,7 +1038,8 @@
     sensiInicial: 0.08,
     permitirFracionado: true,
     limparValorAposAplicar: true,
-    manterNickPreenchido: true
+    manterNickPreenchido: true,
+    messageTemplate: "{nick} • {doacao} • {acao} {sinal}{variacao} • sensi atual {sensi}"
   };
 
   let config = carregarConfig();
@@ -915,9 +1052,14 @@
 
   const atualEl = document.getElementById("atual");
   const anteriorEl = document.getElementById("anterior");
+  const previewMetricEl = document.getElementById("previewMetric");
+  const previewLineEl = document.getElementById("previewLine");
   const rulesLineEl = document.getElementById("rulesLine");
   const pillPixEl = document.getElementById("pillPix");
   const pillBitsEl = document.getElementById("pillBits");
+  const pillTotalLiveEl = document.getElementById("pillTotalLive");
+  const pillCountLiveEl = document.getElementById("pillCountLive");
+  const pillUpDownLiveEl = document.getElementById("pillUpDownLive");
   const statusTextEl = document.getElementById("statusText");
 
   const tituloLiveInput = document.getElementById("tituloLiveInput");
@@ -929,6 +1071,7 @@
   const nickEl = document.getElementById("nick");
   const valorEl = document.getElementById("valor");
   const tipoEl = document.getElementById("tipo");
+  const manualSensiInputEl = document.getElementById("manualSensiInput");
 
   const overlayEl = document.getElementById("overlay");
   const settingsPanelEl = document.getElementById("settingsPanel");
@@ -951,6 +1094,30 @@
 
   function salvarHistoricoCompleto(historico) {
     localStorage.setItem("historico", JSON.stringify(historico));
+  }
+
+  function carregarUndoStack() {
+    return JSON.parse(sessionStorage.getItem("undoStackSensi") || "[]");
+  }
+
+  function salvarUndoStack(stack) {
+    sessionStorage.setItem("undoStackSensi", JSON.stringify(stack));
+  }
+
+  function carregarRedoStack() {
+    return JSON.parse(sessionStorage.getItem("redoStackSensi") || "[]");
+  }
+
+  function salvarRedoStack(stack) {
+    sessionStorage.setItem("redoStackSensi", JSON.stringify(stack));
+  }
+
+  function carregarPresets() {
+    return JSON.parse(localStorage.getItem("presetsSensi") || "[]");
+  }
+
+  function salvarPresets(presets) {
+    localStorage.setItem("presetsSensi", JSON.stringify(presets));
   }
 
   function format3(value) {
@@ -1009,6 +1176,7 @@
     localStorage.setItem("sensiAnterior", String(sensiAnterior));
 
     statusTextEl.textContent = "Sensi resetada para 0.000.";
+    atualizarPreview();
     showToast("Sensi resetada");
   }
 
@@ -1031,6 +1199,7 @@
       liveSetup.classList.remove("hidden");
       editLiveBtn.style.display = "none";
     }
+    atualizarResumoLiveAtual();
   }
 
   function salvarTituloLive() {
@@ -1059,6 +1228,7 @@
 
   function abrirSettings() {
     preencherFormularioConfig();
+    renderPresetOptions();
     abrirOverlay();
     settingsPanelEl.classList.add("show");
     settingsPanelEl.setAttribute("aria-hidden", "false");
@@ -1098,6 +1268,7 @@
     document.getElementById("cfgPermitirFracionado").checked = !!config.permitirFracionado;
     document.getElementById("cfgLimparValor").checked = !!config.limparValorAposAplicar;
     document.getElementById("cfgManterNick").checked = !!config.manterNickPreenchido;
+    document.getElementById("cfgMessageTemplate").value = config.messageTemplate || DEFAULT_CONFIG.messageTemplate;
   }
 
   function lerFormularioConfig() {
@@ -1110,7 +1281,8 @@
       sensiMax: parseFloat(document.getElementById("cfgSensiMax").value),
       permitirFracionado: document.getElementById("cfgPermitirFracionado").checked,
       limparValorAposAplicar: document.getElementById("cfgLimparValor").checked,
-      manterNickPreenchido: document.getElementById("cfgManterNick").checked
+      manterNickPreenchido: document.getElementById("cfgManterNick").checked,
+      messageTemplate: document.getElementById("cfgMessageTemplate").value.trim() || DEFAULT_CONFIG.messageTemplate
     };
 
     if (!Number.isFinite(nova.reaisPorUnidade) || nova.reaisPorUnidade <= 0) {
@@ -1157,6 +1329,7 @@
 
       renderSensi();
       renderRegras();
+      atualizarPreview();
       fecharSettings();
       statusTextEl.textContent = "Configurações salvas com sucesso.";
       showToast("Configurações salvas");
@@ -1181,22 +1354,73 @@
     return unidades * config.variacaoPorUnidade;
   }
 
-  function gerarMensagem({ nick, valor, tipoDoacao, direcao, variacao, sensiFinal }) {
-    const doacaoTexto =
-      tipoDoacao === "bits"
-        ? `💎 ${valor} bits`
-        : `💰 R$${Number(valor).toFixed(2).replace(".", ",")}`;
+  function montarDoacaoTexto(valor, tipoDoacao) {
+    return tipoDoacao === "bits"
+      ? `💎 ${valor} bits`
+      : `💰 R$${Number(valor).toFixed(2).replace(".", ",")}`;
+  }
 
+  function gerarMensagem({ nick, valor, tipoDoacao, direcao, variacao, sensiFinal, sensiAntes }) {
+    const doacaoTexto = montarDoacaoTexto(valor, tipoDoacao);
     const acao = direcao === "up" ? "subiu" : "desceu";
     const sinal = direcao === "up" ? "+" : "-";
 
-    return `${nick} • ${doacaoTexto} • ${acao} ${sinal}${format3(variacao)} • sensi atual ${format3(sensiFinal)}`;
+    const template = config.messageTemplate || DEFAULT_CONFIG.messageTemplate;
+
+    return template
+      .replaceAll("{nick}", nick)
+      .replaceAll("{doacao}", doacaoTexto)
+      .replaceAll("{acao}", acao)
+      .replaceAll("{sinal}", sinal)
+      .replaceAll("{variacao}", format3(variacao))
+      .replaceAll("{sensi}", format3(sensiFinal))
+      .replaceAll("{antes}", format3(sensiAntes));
   }
 
-  function salvarRegistroNoHistorico({ nick, valor, tipoDoacao, direcao, variacao, sensiAntes, sensiFinal }) {
+  function getCurrentLiveInfo() {
+    return {
+      titulo: localStorage.getItem("tituloLive") || "Sem título",
+      data: new Date().toLocaleDateString("pt-BR")
+    };
+  }
+
+  function findCurrentLive(historico) {
+    const info = getCurrentLiveInfo();
+    return historico.find(item => item.titulo === info.titulo && item.data === info.data);
+  }
+
+  function atualizarResumoLiveAtual() {
     const historico = carregarHistorico();
-    const titulo = localStorage.getItem("tituloLive") || "Sem título";
-    const dataHoje = new Date().toLocaleDateString("pt-BR");
+    const live = findCurrentLive(historico);
+
+    if (!live || !(live.registros || []).length) {
+      pillTotalLiveEl.textContent = "📈 Live atual: sem registros";
+      pillCountLiveEl.textContent = "🔢 Alterações: 0";
+      pillUpDownLiveEl.textContent = "⬆️ 0 • ⬇️ 0";
+      return;
+    }
+
+    let totalPix = 0;
+    let totalBits = 0;
+    let ups = 0;
+    let downs = 0;
+
+    live.registros.forEach(r => {
+      if (r.tipoDoacao === "bits") totalBits += Number(r.valor);
+      else totalPix += Number(r.valor);
+
+      if (r.direcao === "up") ups++;
+      else downs++;
+    });
+
+    pillTotalLiveEl.textContent = `📈 Live atual: R$${formatMoney(totalPix)} • ${totalBits} bits`;
+    pillCountLiveEl.textContent = `🔢 Alterações: ${live.registros.length}`;
+    pillUpDownLiveEl.textContent = `⬆️ ${ups} • ⬇️ ${downs}`;
+  }
+
+  function salvarRegistroNoHistorico({ nick, valor, tipoDoacao, direcao, variacao, sensiAntes, sensiFinal, origem = "doacao" }) {
+    const historico = carregarHistorico();
+    const { titulo, data } = getCurrentLiveInfo();
 
     const registro = {
       id: Date.now() + Math.floor(Math.random() * 1000),
@@ -1207,16 +1431,17 @@
       variacao: Number(variacao.toFixed(3)),
       sensiAntes: Number(sensiAntes.toFixed(3)),
       sensiFinal: Number(sensiFinal.toFixed(3)),
-      dataHora: new Date().toLocaleString("pt-BR")
+      dataHora: new Date().toLocaleString("pt-BR"),
+      origem
     };
 
-    let live = historico.find(item => item.titulo === titulo && item.data === dataHoje);
+    let live = historico.find(item => item.titulo === titulo && item.data === data);
 
     if (!live) {
       live = {
         id: Date.now() + Math.floor(Math.random() * 1000),
         titulo,
-        data: dataHoje,
+        data,
         registros: []
       };
       historico.unshift(live);
@@ -1224,6 +1449,53 @@
 
     live.registros.unshift(registro);
     salvarHistoricoCompleto(historico);
+    atualizarResumoLiveAtual();
+    return { registro, titulo, data };
+  }
+
+  function inserirRegistroNoHistoricoExistente(registro, titulo, data) {
+    const historico = carregarHistorico();
+    let live = historico.find(item => item.titulo === titulo && item.data === data);
+
+    if (!live) {
+      live = {
+        id: Date.now() + Math.floor(Math.random() * 1000),
+        titulo,
+        data,
+        registros: []
+      };
+      historico.unshift(live);
+    }
+
+    live.registros.unshift(registro);
+    salvarHistoricoCompleto(historico);
+    atualizarResumoLiveAtual();
+  }
+
+  function removerRegistroPorId(idRegistro) {
+    const historico = carregarHistorico();
+
+    for (let i = 0; i < historico.length; i++) {
+      const live = historico[i];
+      const idx = (live.registros || []).findIndex(r => r.id === idRegistro);
+      if (idx !== -1) {
+        live.registros.splice(idx, 1);
+        if (!live.registros.length) {
+          historico.splice(i, 1);
+        }
+        salvarHistoricoCompleto(historico);
+        atualizarResumoLiveAtual();
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function pushUndoAction(acao) {
+    const undo = carregarUndoStack();
+    undo.push(acao);
+    salvarUndoStack(undo);
+    salvarRedoStack([]);
   }
 
   function aplicarMudanca(direcao) {
@@ -1269,51 +1541,372 @@
       tipoDoacao,
       direcao,
       variacao,
-      sensiFinal: sensi
+      sensiFinal: sensi,
+      sensiAntes: sensiAntesDaMudanca
     });
 
     statusTextEl.textContent = mensagem;
 
-    salvarRegistroNoHistorico({
+    const resultado = salvarRegistroNoHistorico({
       nick,
       valor,
       tipoDoacao,
       direcao,
       variacao,
       sensiAntes: sensiAntesDaMudanca,
-      sensiFinal: sensi
+      sensiFinal: sensi,
+      origem: "doacao"
+    });
+
+    pushUndoAction({
+      type: "change",
+      titulo: resultado.titulo,
+      data: resultado.data,
+      registro: resultado.registro
     });
 
     renderHistory();
+    atualizarPreview();
 
-    if (config.limparValorAposAplicar) {
-      valorEl.value = "";
+    if (config.limparValorAposAplicar) valorEl.value = "";
+    if (!config.manterNickPreenchido) nickEl.value = "";
+
+    if (config.manterNickPreenchido) valorEl.focus();
+    else nickEl.focus();
+  }
+
+  function aplicarSensiManual() {
+    const titulo = localStorage.getItem("tituloLive");
+    if (!titulo) {
+      alert("Defina o título da live primeiro.");
+      return;
     }
 
-    if (!config.manterNickPreenchido) {
-      nickEl.value = "";
+    const valorManual = parseFloat(manualSensiInputEl.value);
+    if (!Number.isFinite(valorManual) || valorManual < 0) {
+      alert("Digite uma sensi manual válida.");
+      return;
     }
 
-    if (config.manterNickPreenchido) {
-      valorEl.focus();
-    } else {
-      nickEl.focus();
+    let novaSensi = valorManual;
+    if (novaSensi > config.sensiMax) novaSensi = config.sensiMax;
+    if (novaSensi < config.sensiMin && novaSensi !== 0) novaSensi = config.sensiMin;
+
+    const antes = Number(sensi.toFixed(3));
+    atualizarCardsSensi(novaSensi, antes);
+
+    const direcao = novaSensi >= antes ? "up" : "down";
+    const variacao = Math.abs(novaSensi - antes);
+
+    statusTextEl.textContent = `Ajuste manual • sensi ${format3(antes)} → ${format3(novaSensi)}`;
+
+    const resultado = salvarRegistroNoHistorico({
+      nick: "Ajuste manual",
+      valor: variacao,
+      tipoDoacao: "pix",
+      direcao,
+      variacao,
+      sensiAntes: antes,
+      sensiFinal: novaSensi,
+      origem: "manual"
+    });
+
+    pushUndoAction({
+      type: "change",
+      titulo: resultado.titulo,
+      data: resultado.data,
+      registro: resultado.registro
+    });
+
+    manualSensiInputEl.value = "";
+    renderHistory();
+    atualizarPreview();
+    showToast("Sensi manual aplicada");
+  }
+
+  function desfazerUltimaAcao() {
+    const undo = carregarUndoStack();
+    if (!undo.length) {
+      alert("Não há ação para desfazer.");
+      return;
     }
+
+    const acao = undo.pop();
+    salvarUndoStack(undo);
+
+    if (acao.type === "change") {
+      removerRegistroPorId(acao.registro.id);
+      atualizarCardsSensi(acao.registro.sensiAntes, acao.registro.sensiFinal);
+
+      const redo = carregarRedoStack();
+      redo.push(acao);
+      salvarRedoStack(redo);
+
+      statusTextEl.textContent = `Desfeita a ação de ${acao.registro.nick}.`;
+      renderHistory();
+      atualizarPreview();
+      showToast("Última ação desfeita");
+    }
+  }
+
+  function refazerUltimaAcao() {
+    const redo = carregarRedoStack();
+    if (!redo.length) {
+      alert("Não há ação para refazer.");
+      return;
+    }
+
+    const acao = redo.pop();
+    salvarRedoStack(redo);
+
+    if (acao.type === "change") {
+      inserirRegistroNoHistoricoExistente(acao.registro, acao.titulo, acao.data);
+      atualizarCardsSensi(acao.registro.sensiFinal, acao.registro.sensiAntes);
+
+      const undo = carregarUndoStack();
+      undo.push(acao);
+      salvarUndoStack(undo);
+
+      statusTextEl.textContent = `Refeita a ação de ${acao.registro.nick}.`;
+      renderHistory();
+      atualizarPreview();
+      showToast("Última ação refeita");
+    }
+  }
+
+  function limparCampos() {
+    nickEl.value = "";
+    valorEl.value = "";
+    manualSensiInputEl.value = "";
+    tipoEl.value = "pix";
+    atualizarPreview();
+    nickEl.focus();
+    showToast("Campos limpos");
+  }
+
+  function getPreviewInfo() {
+    const valor = parseFloat(valorEl.value);
+    const tipoDoacao = tipoEl.value;
+    const nick = nickEl.value.trim() || "Anônimo";
+
+    if (!Number.isFinite(valor) || valor <= 0) {
+      return { valido: false, texto: "Digite um valor para ver a prévia." };
+    }
+
+    const variacao = calcularVariacao(valor, tipoDoacao);
+
+    if (!Number.isFinite(variacao) || variacao <= 0) {
+      return { valido: false, texto: "Esse valor não gera alteração com a regra atual." };
+    }
+
+    const subir = Math.min(config.sensiMax, sensi + variacao);
+    const descer = Math.max(config.sensiMin, sensi - variacao);
+
+    return { valido: true, nick, valor, tipoDoacao, variacao, subir, descer };
+  }
+
+  function atualizarPreview() {
+    const info = getPreviewInfo();
+
+    if (!info.valido) {
+      previewLineEl.textContent = info.texto;
+      previewMetricEl.textContent = format3(sensi);
+      return;
+    }
+
+    const doacaoTexto = montarDoacaoTexto(info.valor, info.tipoDoacao);
+    previewMetricEl.textContent = format3(info.subir);
+    previewLineEl.textContent =
+      `${info.nick} • ${doacaoTexto} • subir: ${format3(info.subir)} • descer: ${format3(info.descer)} • variação: ${format3(info.variacao)}`;
+  }
+
+  function renderPresetOptions() {
+    const select = document.getElementById("presetSelect");
+    const presets = carregarPresets();
+
+    select.innerHTML =
+      '<option value="">Selecione um preset</option>' +
+      presets.map((preset, index) => `<option value="${index}">${escapeHtml(preset.name)}</option>`).join("");
+  }
+
+  function salvarPresetAtual() {
+    try {
+      const nome = document.getElementById("presetNameInput").value.trim();
+      if (!nome) {
+        alert("Digite um nome para o preset.");
+        return;
+      }
+
+      const nova = lerFormularioConfig();
+      const presets = carregarPresets();
+      const idx = presets.findIndex(p => p.name.toLowerCase() === nome.toLowerCase());
+
+      const preset = { name: nome, config: nova };
+
+      if (idx !== -1) presets[idx] = preset;
+      else presets.push(preset);
+
+      salvarPresets(presets);
+      renderPresetOptions();
+      document.getElementById("presetNameInput").value = "";
+      showToast("Preset salvo");
+    } catch (erro) {
+      alert(erro.message);
+    }
+  }
+
+  function carregarPresetSelecionado() {
+    const index = document.getElementById("presetSelect").value;
+    if (index === "") {
+      alert("Selecione um preset.");
+      return;
+    }
+
+    const presets = carregarPresets();
+    const preset = presets[Number(index)];
+    if (!preset) return;
+
+    const cfg = preset.config;
+
+    document.getElementById("cfgReaisPorUnidade").value = cfg.reaisPorUnidade;
+    document.getElementById("cfgBitsPorUnidade").value = cfg.bitsPorUnidade;
+    document.getElementById("cfgVariacaoPorUnidade").value = cfg.variacaoPorUnidade;
+    document.getElementById("cfgSensiInicial").value = cfg.sensiInicial;
+    document.getElementById("cfgSensiMin").value = cfg.sensiMin;
+    document.getElementById("cfgSensiMax").value = cfg.sensiMax;
+    document.getElementById("cfgPermitirFracionado").checked = !!cfg.permitirFracionado;
+    document.getElementById("cfgLimparValor").checked = !!cfg.limparValorAposAplicar;
+    document.getElementById("cfgManterNick").checked = !!cfg.manterNickPreenchido;
+    document.getElementById("cfgMessageTemplate").value = cfg.messageTemplate || DEFAULT_CONFIG.messageTemplate;
+
+    showToast("Preset carregado");
+  }
+
+  function excluirPresetSelecionado() {
+    const index = document.getElementById("presetSelect").value;
+    if (index === "") {
+      alert("Selecione um preset.");
+      return;
+    }
+
+    const presets = carregarPresets();
+    const preset = presets[Number(index)];
+    if (!preset) return;
+
+    const confirmar = confirm(`Excluir o preset "${preset.name}"?`);
+    if (!confirmar) return;
+
+    presets.splice(Number(index), 1);
+    salvarPresets(presets);
+    renderPresetOptions();
+    showToast("Preset excluído");
+  }
+
+  function baixarArquivo(nome, conteudo, tipoMime) {
+    const blob = new Blob([conteudo], { type: tipoMime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = nome;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function exportarConfig() {
+    baixarArquivo("config-sensi.json", JSON.stringify(config, null, 2), "application/json;charset=utf-8;");
+    showToast("Config exportada");
+  }
+
+  function montarTextoHistorico(historico) {
+    return historico.map(live => {
+      const bloco = (live.registros || []).map(r => {
+        const doacao = r.origem === "manual"
+          ? `🎯 ajuste manual`
+          : (r.tipoDoacao === "bits"
+            ? `💎 ${r.valor} bits`
+            : `💰 R$${Number(r.valor).toFixed(2).replace(".", ",")}`);
+        const variacao = `${r.direcao === "up" ? "+" : "-"}${Number(r.variacao).toFixed(3)}`;
+        return `• ${r.nick} | ${doacao} | ${variacao} | sensi ${Number(r.sensiFinal).toFixed(3)}`;
+      }).join("\n");
+
+      return `${live.titulo} - ${live.data}\n${bloco}`;
+    }).join("\n\n");
+  }
+
+  function exportarTxt() {
+    const historico = carregarHistorico();
+    if (!historico.length) {
+      alert("Não há histórico para exportar.");
+      return;
+    }
+    baixarArquivo("historico-sensi.txt", montarTextoHistorico(historico), "text/plain;charset=utf-8;");
+    showToast("TXT exportado");
+  }
+
+  function exportarCsv() {
+    const historico = carregarHistorico();
+    if (!historico.length) {
+      alert("Não há histórico para exportar.");
+      return;
+    }
+
+    const linhas = [
+      ["live","data","nick","tipo","valor","direcao","variacao","sensi_antes","sensi_final","data_hora","origem"].join(";")
+    ];
+
+    historico.forEach(live => {
+      (live.registros || []).forEach(r => {
+        linhas.push([
+          `"${String(live.titulo).replaceAll('"','""')}"`,
+          `"${live.data}"`,
+          `"${String(r.nick).replaceAll('"','""')}"`,
+          `"${r.tipoDoacao}"`,
+          `"${r.valor}"`,
+          `"${r.direcao}"`,
+          `"${r.variacao}"`,
+          `"${r.sensiAntes}"`,
+          `"${r.sensiFinal}"`,
+          `"${r.dataHora}"`,
+          `"${r.origem || "doacao"}"`
+        ].join(";"));
+      });
+    });
+
+    baixarArquivo("historico-sensi.csv", linhas.join("\n"), "text/csv;charset=utf-8;");
+    showToast("CSV exportado");
   }
 
   function renderHistory() {
     const historico = carregarHistorico();
+    const busca = (document.getElementById("historySearchInput")?.value || "").trim().toLowerCase();
+    const tipoFiltro = document.getElementById("historyTipoFilter")?.value || "all";
+    const dataFiltroIso = document.getElementById("historyDateFilter")?.value || "";
+    const dataFiltroPtBr = dataFiltroIso ? dataFiltroIso.split("-").reverse().join("/") : "";
 
-    if (!historico.length) {
-      historyListEl.innerHTML = '<div class="history-empty">Nenhum histórico salvo ainda.</div>';
+    const filtrado = historico.map(live => {
+      const registros = (live.registros || []).filter(registro => {
+        const okBusca = !busca || String(registro.nick || "").toLowerCase().includes(busca);
+        const okTipo = tipoFiltro === "all" || registro.tipoDoacao === tipoFiltro;
+        const okData = !dataFiltroPtBr || live.data === dataFiltroPtBr;
+        return okBusca && okTipo && okData;
+      });
+      return { ...live, registros };
+    }).filter(live => live.registros.length > 0);
+
+    if (!filtrado.length) {
+      historyListEl.innerHTML = '<div class="history-empty">Nenhum registro encontrado com os filtros atuais.</div>';
       return;
     }
 
-    historyListEl.innerHTML = historico.map((live, liveIndex) => {
-      const recordsHtml = (live.registros || []).map((registro, regIndex) => {
-        const doacao = registro.tipoDoacao === "bits"
-          ? `💎 ${registro.valor} bits`
-          : `💰 R$${Number(registro.valor).toFixed(2).replace(".", ",")}`;
+    historyListEl.innerHTML = filtrado.map((live, liveIndex) => {
+      const recordsHtml = (live.registros || []).map((registro) => {
+        const doacao = registro.origem === "manual"
+          ? `🎯 Ajuste manual`
+          : (registro.tipoDoacao === "bits"
+            ? `💎 ${registro.valor} bits`
+            : `💰 R$${Number(registro.valor).toFixed(2).replace(".", ",")}`);
 
         const variacao = `${registro.direcao === "up" ? "🟢 +" : "🔴 -"}${Number(registro.variacao).toFixed(3)}`;
 
@@ -1345,8 +1938,9 @@
               <div class="time">${escapeHtml(registro.dataHora || "")}</div>
 
               <div class="record-actions">
-                <button class="mini-btn copy-live-btn" type="button" onclick="copiarRegistro(${liveIndex}, ${regIndex})">📋 Copiar</button>
-                <button class="mini-btn delete-btn" type="button" onclick="excluirRegistro(${liveIndex}, ${regIndex})">🗑️ Excluir</button>
+                <button class="mini-btn copy-live-btn" type="button" onclick="copiarRegistroPorId(${registro.id})">📋 Copiar</button>
+                <button class="mini-btn use-btn" type="button" onclick="usarRegistroPorId(${registro.id})">↩ Usar</button>
+                <button class="mini-btn delete-btn" type="button" onclick="excluirRegistroPorId(${registro.id})">🗑️ Excluir</button>
               </div>
             </div>
           </div>
@@ -1375,6 +1969,37 @@
     }).join("");
   }
 
+  function encontrarRegistroPorId(idRegistro) {
+    const historico = carregarHistorico();
+    for (const live of historico) {
+      const registro = (live.registros || []).find(r => r.id === idRegistro);
+      if (registro) return { live, registro };
+    }
+    return null;
+  }
+
+  function usarRegistroPorId(idRegistro) {
+    const found = encontrarRegistroPorId(idRegistro);
+    if (!found) return;
+
+    const { registro, live } = found;
+
+    if (live?.titulo) localStorage.setItem("tituloLive", live.titulo);
+
+    nickEl.value = registro.nick === "Ajuste manual" ? "" : (registro.nick || "");
+    valorEl.value = registro.origem === "manual" ? "" : registro.valor;
+    tipoEl.value = registro.tipoDoacao || "pix";
+    manualSensiInputEl.value = registro.sensiFinal;
+
+    atualizarCardsSensi(Number(registro.sensiFinal), Number(registro.sensiAntes));
+    renderTituloLive();
+    atualizarPreview();
+    fecharHistorico();
+
+    statusTextEl.textContent = `Registro carregado: ${registro.nick} • sensi ${format3(registro.sensiFinal)}`;
+    showToast("Registro carregado");
+  }
+
   function toggleLive(index) {
     const card = document.querySelector(`[data-live-index="${index}"]`);
     if (card) card.classList.toggle("open");
@@ -1395,92 +2020,66 @@
     copiarTexto(texto, "Última ação copiada");
   }
 
-  function copiarRegistro(liveIndex, regIndex) {
-    const historico = carregarHistorico();
-    const live = historico[liveIndex];
-    if (!live) return;
-    const registro = live.registros[regIndex];
-    if (!registro) return;
+  function copiarPreview() {
+    const texto = previewLineEl.textContent.trim();
+    if (!texto) {
+      alert("Não há prévia para copiar.");
+      return;
+    }
+    copiarTexto(texto, "Prévia copiada");
+  }
 
-    const doacaoTexto =
-      registro.tipoDoacao === "bits"
-        ? `💎 ${registro.valor} bits`
-        : `💰 R$${Number(registro.valor).toFixed(2).replace(".", ",")}`;
+  function copiarRegistroPorId(idRegistro) {
+    const found = encontrarRegistroPorId(idRegistro);
+    if (!found) return;
 
-    const acao = registro.direcao === "up" ? "subiu" : "desceu";
-    const sinal = registro.direcao === "up" ? "+" : "-";
+    const { registro } = found;
 
-    const texto = `${registro.nick} • ${doacaoTexto} • ${acao} ${sinal}${Number(registro.variacao).toFixed(3)} • sensi atual ${Number(registro.sensiFinal).toFixed(3)}`;
+    const texto = registro.origem === "manual"
+      ? `Ajuste manual • sensi atual ${Number(registro.sensiFinal).toFixed(3)}`
+      : gerarMensagem({
+          nick: registro.nick,
+          valor: registro.valor,
+          tipoDoacao: registro.tipoDoacao,
+          direcao: registro.direcao,
+          variacao: Number(registro.variacao),
+          sensiFinal: Number(registro.sensiFinal),
+          sensiAntes: Number(registro.sensiAntes)
+        });
+
     copiarTexto(texto, "Registro copiado");
   }
 
   function copiarTudo() {
     const historico = carregarHistorico();
-
     if (!historico.length) {
       alert("Não há histórico para copiar.");
       return;
     }
-
-    const texto = historico.map(live => {
-      const bloco = (live.registros || []).map(r => {
-        const doacao = r.tipoDoacao === "bits"
-          ? `💎 ${r.valor} bits`
-          : `💰 R$${Number(r.valor).toFixed(2).replace(".", ",")}`;
-        const variacao = `${r.direcao === "up" ? "+" : "-"}${Number(r.variacao).toFixed(3)}`;
-        return `• ${r.nick} | ${doacao} | ${variacao} | sensi ${Number(r.sensiFinal).toFixed(3)}`;
-      }).join("\n");
-
-      return `${live.titulo} - ${live.data}\n${bloco}`;
-    }).join("\n\n");
-
-    copiarTexto(texto, "Histórico copiado");
+    copiarTexto(montarTextoHistorico(historico), "Histórico copiado");
   }
 
   function copiarLiveAtual() {
     const historico = carregarHistorico();
-    const tituloAtual = localStorage.getItem("tituloLive") || "";
-    const dataHoje = new Date().toLocaleDateString("pt-BR");
-
-    const live = historico.find(item => item.titulo === tituloAtual && item.data === dataHoje);
+    const live = findCurrentLive(historico);
 
     if (!live || !(live.registros || []).length) {
       alert("Não há registros da live atual para copiar.");
       return;
     }
 
-    const texto = [
-      `${live.titulo} - ${live.data}`,
-      ...live.registros.map(r => {
-        const doacao = r.tipoDoacao === "bits"
-          ? `💎 ${r.valor} bits`
-          : `💰 R$${Number(r.valor).toFixed(2).replace(".", ",")}`;
-        const variacao = `${r.direcao === "up" ? "+" : "-"}${Number(r.variacao).toFixed(3)}`;
-        return `• ${r.nick} | ${doacao} | ${variacao} | sensi ${Number(r.sensiFinal).toFixed(3)}`;
-      })
-    ].join("\n");
-
-    copiarTexto(texto, "Live atual copiada");
+    copiarTexto(montarTextoHistorico([live]), "Live atual copiada");
   }
 
-  function excluirRegistro(liveIndex, regIndex) {
-    const historico = carregarHistorico();
-    const live = historico[liveIndex];
-    if (!live) return;
+  function excluirRegistroPorId(idRegistro) {
+    const found = encontrarRegistroPorId(idRegistro);
+    if (!found) return;
 
-    const registro = live.registros[regIndex];
-    if (!registro) return;
-
+    const { registro } = found;
     const confirmar = confirm(`Excluir o registro de ${registro.nick}?`);
     if (!confirmar) return;
 
-    live.registros.splice(regIndex, 1);
-
-    if (!live.registros.length) {
-      historico.splice(liveIndex, 1);
-    }
-
-    salvarHistoricoCompleto(historico);
+    removerRegistroPorId(idRegistro);
     renderHistory();
     showToast("Registro excluído");
   }
@@ -1497,7 +2096,16 @@
 
     localStorage.removeItem("historico");
     renderHistory();
+    atualizarResumoLiveAtual();
     showToast("Histórico apagado");
+  }
+
+  function limparFiltrosHistorico() {
+    document.getElementById("historySearchInput").value = "";
+    document.getElementById("historyTipoFilter").value = "all";
+    document.getElementById("historyDateFilter").value = "";
+    renderHistory();
+    showToast("Filtros limpos");
   }
 
   saveLiveBtn.addEventListener("click", salvarTituloLive);
@@ -1516,6 +2124,10 @@
   document.getElementById("btnSubir").addEventListener("click", () => aplicarMudanca("up"));
   document.getElementById("btnDescer").addEventListener("click", () => aplicarMudanca("down"));
   document.getElementById("resetSensiBtn").addEventListener("click", resetarSensi);
+  document.getElementById("undoBtn").addEventListener("click", desfazerUltimaAcao);
+  document.getElementById("redoBtn").addEventListener("click", refazerUltimaAcao);
+  document.getElementById("applyManualBtn").addEventListener("click", aplicarSensiManual);
+  document.getElementById("clearFieldsBtn").addEventListener("click", limparCampos);
 
   document.getElementById("btnHistorico").addEventListener("click", abrirHistorico);
   document.getElementById("openHistoryBtn").addEventListener("click", abrirHistorico);
@@ -1528,20 +2140,59 @@
   document.getElementById("saveSettingsBtn").addEventListener("click", aplicarNovaConfig);
 
   document.getElementById("copyLastActionBtn").addEventListener("click", copiarUltimaAcao);
+  document.getElementById("copyPreviewBtn").addEventListener("click", copiarPreview);
   document.getElementById("copyAllHistoryBtn").addEventListener("click", copiarTudo);
   document.getElementById("clearHistoryBtn").addEventListener("click", limparTudo);
   document.getElementById("copyCurrentLiveBtn").addEventListener("click", copiarLiveAtual);
+  document.getElementById("exportTxtBtn").addEventListener("click", exportarTxt);
+  document.getElementById("exportCsvBtn").addEventListener("click", exportarCsv);
+
+  document.getElementById("historySearchInput").addEventListener("input", renderHistory);
+  document.getElementById("historyTipoFilter").addEventListener("change", renderHistory);
+  document.getElementById("historyDateFilter").addEventListener("change", renderHistory);
+  document.getElementById("clearHistoryFiltersBtn").addEventListener("click", limparFiltrosHistorico);
+
+  document.getElementById("savePresetBtn").addEventListener("click", salvarPresetAtual);
+  document.getElementById("loadPresetBtn").addEventListener("click", carregarPresetSelecionado);
+  document.getElementById("deletePresetBtn").addEventListener("click", excluirPresetSelecionado);
+  document.getElementById("exportConfigBtn").addEventListener("click", exportarConfig);
+
+  valorEl.addEventListener("input", atualizarPreview);
+  tipoEl.addEventListener("change", atualizarPreview);
+  nickEl.addEventListener("input", atualizarPreview);
 
   overlayEl.addEventListener("click", fecharTudo);
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") fecharTudo();
+
+    if (event.ctrlKey && event.key.toLowerCase() === "z") {
+      event.preventDefault();
+      desfazerUltimaAcao();
+    }
+
+    if (event.ctrlKey && event.key.toLowerCase() === "y") {
+      event.preventDefault();
+      refazerUltimaAcao();
+    }
+
+    if (event.altKey && event.key === "ArrowUp") {
+      event.preventDefault();
+      aplicarMudanca("up");
+    }
+
+    if (event.altKey && event.key === "ArrowDown") {
+      event.preventDefault();
+      aplicarMudanca("down");
+    }
   });
 
   renderSensi();
   renderRegras();
   renderTituloLive();
   renderHistory();
+  renderPresetOptions();
+  atualizarPreview();
 </script>
 </body>
 </html>
