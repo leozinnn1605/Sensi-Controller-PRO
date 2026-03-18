@@ -40,8 +40,6 @@
   body {
     margin: 0;
     min-height: 100vh;
-    display: grid;
-    place-items: center;
     background:
       radial-gradient(circle at top, rgba(139, 92, 246, 0.24), transparent 34%),
       radial-gradient(circle at bottom right, rgba(239, 68, 68, 0.12), transparent 28%),
@@ -51,18 +49,27 @@
     padding: 24px;
   }
 
+  .app-shell {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+  }
+
+  .side-panel,
   .panel {
-    width: min(100%, 840px);
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     backdrop-filter: blur(12px);
-    padding: 28px;
     position: relative;
     overflow: hidden;
   }
 
+  .side-panel::before,
   .panel::before {
     content: "";
     position: absolute;
@@ -76,6 +83,198 @@
     -webkit-mask-composite: xor;
             mask-composite: exclude;
     pointer-events: none;
+  }
+
+  .side-panel {
+    padding: 18px;
+    position: sticky;
+    top: 24px;
+  }
+
+  .panel {
+    width: 100%;
+    padding: 28px;
+  }
+
+  .side-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .side-title h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 900;
+  }
+
+  .side-sub {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.45;
+    margin-bottom: 16px;
+  }
+
+  .roulette-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
+    margin-bottom: 16px;
+  }
+
+  .roulette-pointer {
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 0;
+    border-bottom: 24px solid #fde68a;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
+    z-index: 4;
+  }
+
+  .roulette-wheel-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
+  }
+
+  .roulette-wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 8px solid rgba(255,255,255,0.08);
+    box-shadow:
+      inset 0 0 40px rgba(0,0,0,0.25),
+      0 18px 40px rgba(0,0,0,0.35);
+    position: relative;
+    transition: transform 5.4s cubic-bezier(0.12, 0.88, 0.15, 1);
+    transform: rotate(0deg);
+    overflow: hidden;
+  }
+
+  .roulette-wheel::after {
+    content: "";
+    position: absolute;
+    inset: 24%;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(255,255,255,0.16), transparent 40%),
+      linear-gradient(135deg, rgba(17,24,39,0.92), rgba(31,41,55,0.96));
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: inset 0 0 20px rgba(255,255,255,0.04);
+    z-index: 2;
+  }
+
+  .roulette-center-label {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .roulette-center-badge {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 10px;
+    background: rgba(10, 14, 28, 0.9);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #fff7d6;
+    font-size: 0.78rem;
+    font-weight: 900;
+    line-height: 1.2;
+    box-shadow: 0 12px 26px rgba(0,0,0,0.28);
+  }
+
+  .roulette-labels {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .roulette-label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center center;
+    font-size: 0.82rem;
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+    white-space: nowrap;
+  }
+
+  .side-card {
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .side-card-title {
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-weight: 800;
+  }
+
+  .side-card-value {
+    font-size: 1rem;
+    font-weight: 900;
+    line-height: 1.35;
+  }
+
+  .roulette-list {
+    display: grid;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .roulette-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.88rem;
+    font-weight: 800;
+  }
+
+  .roulette-list-item.active {
+    border-color: rgba(250,204,21,0.35);
+    background: linear-gradient(135deg, rgba(250,204,21,0.12), rgba(234,179,8,0.06));
+    color: #fff7d6;
+  }
+
+  .spin-glow {
+    animation: spinPulse 0.9s ease-in-out infinite;
+  }
+
+  @keyframes spinPulse {
+    0%, 100% { filter: drop-shadow(0 0 0 rgba(250,204,21,0)); }
+    50% { filter: drop-shadow(0 0 18px rgba(250,204,21,0.22)); }
   }
 
   .top-row {
@@ -710,7 +909,6 @@
   .clear-btn { background: linear-gradient(135deg, #dc2626, #ef4444); }
   .export-btn { background: linear-gradient(135deg, var(--blue), var(--blue-2)); }
   .preset-btn { background: linear-gradient(135deg, #7c3aed, #8b5cf6); }
-  .roulette-btn-style { background: linear-gradient(135deg, var(--yellow), var(--yellow-2)); color: #1f2937; }
 
   .history-empty {
     text-align: center;
@@ -980,8 +1178,19 @@
     transform: translateX(-50%) translateY(0);
   }
 
+  @media (max-width: 1080px) {
+    .app-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .side-panel {
+      position: relative;
+      top: 0;
+      order: -1;
+    }
+  }
+
   @media (max-width: 760px) {
-    .panel { width: min(100%, 700px); }
     .preview-line { grid-template-columns: 1fr; }
   }
 
@@ -997,121 +1206,164 @@
 </style>
 </head>
 <body>
-  <div class="panel">
-    <div class="top-row">
-      <div class="title-wrap">
-        <div class="title-line">
-          <div style="font-size:1.8rem;">🎮</div>
-          <h1>Painel de Sensi</h1>
-        </div>
+  <div class="app-shell">
+    <aside class="side-panel">
+      <div class="side-title">
+        <div style="font-size:1.35rem;">🎲</div>
+        <h2>Roleta da Live</h2>
+      </div>
 
-        <div class="live-title-line">
-          <div class="live-title-box">
-            <div class="live-title-label">Live atual</div>
-            <div id="liveTitleDisplay" class="live-title-display"></div>
+      <div class="side-sub">
+        Quando a doação bater exatamente no valor configurado, a roleta gira automaticamente e sorteia o multiplicador.
+      </div>
+
+      <div class="roulette-stage">
+        <div class="roulette-pointer"></div>
+
+        <div id="rouletteWheelWrap" class="roulette-wheel-wrap">
+          <div id="rouletteWheel" class="roulette-wheel"></div>
+          <div id="rouletteLabels" class="roulette-labels"></div>
+
+          <div class="roulette-center-label">
+            <div id="rouletteCenterBadge" class="roulette-center-badge">
+              aguardando<br>gatilho
+            </div>
           </div>
-          <button id="editLiveBtn" class="small-btn" type="button" style="display:none;">Editar título</button>
         </div>
       </div>
 
-      <div class="title-actions">
-        <button id="openHistoryBtn" class="icon-btn history-btn" type="button" title="Histórico">📜</button>
-        <button id="openRankingBtn" class="icon-btn ranking-btn" type="button" title="Ranking">🏆</button>
-        <button id="toggleMiniPlayerBtn" class="icon-btn mini-player-btn" type="button" title="Mini-Player">🗔</button>
-        <button id="undoBtn" class="icon-btn undo-btn" type="button" title="Desfazer">↶</button>
-        <button id="redoBtn" class="icon-btn redo-btn" type="button" title="Refazer">↷</button>
-        <button id="resetSensiBtn" class="icon-btn reset-btn" type="button" title="Resetar sensi">↺</button>
-        <button id="openSettingsBtn" class="icon-btn gear-btn" type="button" title="Configurações">⚙️</button>
-      </div>
-    </div>
-
-    <div id="liveSetup" class="live-setup">
-      <input id="tituloLiveInput" class="input" type="text" placeholder="Título da live" maxlength="120" />
-      <button id="saveLiveBtn" class="live-save-btn" type="button">OK</button>
-    </div>
-
-    <div class="grid single">
-      <input id="nick" class="input" type="text" placeholder="Nick de quem doou" maxlength="60" />
-    </div>
-
-    <div class="grid three" style="margin-top:12px;">
-      <select id="tipo" class="select">
-        <option value="pix">PIX (R$)</option>
-        <option value="bits">Bits</option>
-      </select>
-
-      <input id="valor" class="input" type="number" min="0" step="0.01" placeholder="Valor" />
-      <input id="manualSensiInput" class="input" type="number" min="0" step="0.001" placeholder="Ajuste manual" />
-    </div>
-
-    <div class="sensi-card">
-      <div class="metrics">
-        <div class="metric metric-current">
-          <div class="metric-label">Sensi atual</div>
-          <div id="atual" class="metric-value">0.000</div>
-        </div>
-
-        <div class="metric metric-prev">
-          <div class="metric-label">Anterior</div>
-          <div id="anterior" class="metric-value">0.000</div>
-        </div>
+      <div class="side-card">
+        <div class="side-card-title">Gatilho da roleta</div>
+        <div id="rouletteTriggerInfo" class="side-card-value">Desativada</div>
       </div>
 
-      <div id="rulesLine" class="rules-line"></div>
-
-      <div id="rouletteActiveBar" class="roulette-active-bar">
-        <div class="roulette-active-title">Roleta ativa</div>
-        <div id="rouletteActiveText" class="roulette-active-text">Multiplicador ativo.</div>
+      <div class="side-card">
+        <div class="side-card-title">Status</div>
+        <div id="rouletteStatusInfo" class="side-card-value">Nenhum multiplicador ativo.</div>
       </div>
 
-      <div id="previewIdle" class="preview-idle">Aguardando doação...</div>
+      <div class="side-card">
+        <div class="side-card-title">Multiplicadores</div>
+        <div id="rouletteList" class="roulette-list"></div>
+      </div>
+    </aside>
 
-      <div id="previewLine" class="preview-line">
-        <div class="preview-box up">
-          <div class="preview-title">⬆️ Se subir</div>
-          <div id="previewUpValue" class="preview-value">0.000</div>
-          <div id="previewUpSub" class="preview-sub"></div>
+    <div class="panel">
+      <div class="top-row">
+        <div class="title-wrap">
+          <div class="title-line">
+            <div style="font-size:1.8rem;">🎮</div>
+            <h1>Painel de Sensi</h1>
+          </div>
+
+          <div class="live-title-line">
+            <div class="live-title-box">
+              <div class="live-title-label">Live atual</div>
+              <div id="liveTitleDisplay" class="live-title-display"></div>
+            </div>
+            <button id="editLiveBtn" class="small-btn" type="button" style="display:none;">Editar título</button>
+          </div>
         </div>
 
-        <div class="preview-box down">
-          <div class="preview-title">⬇️ Se descer</div>
-          <div id="previewDownValue" class="preview-value">0.000</div>
-          <div id="previewDownSub" class="preview-sub"></div>
+        <div class="title-actions">
+          <button id="openHistoryBtn" class="icon-btn history-btn" type="button" title="Histórico">📜</button>
+          <button id="openRankingBtn" class="icon-btn ranking-btn" type="button" title="Ranking">🏆</button>
+          <button id="toggleMiniPlayerBtn" class="icon-btn mini-player-btn" type="button" title="Mini-Player">🗔</button>
+          <button id="undoBtn" class="icon-btn undo-btn" type="button" title="Desfazer">↶</button>
+          <button id="redoBtn" class="icon-btn redo-btn" type="button" title="Refazer">↷</button>
+          <button id="resetSensiBtn" class="icon-btn reset-btn" type="button" title="Resetar sensi">↺</button>
+          <button id="openSettingsBtn" class="icon-btn gear-btn" type="button" title="Configurações">⚙️</button>
         </div>
       </div>
 
-      <div class="pill-row">
-        <div id="pillPix" class="pill"></div>
-        <div id="pillBits" class="pill"></div>
-        <div id="pillTotalLive" class="pill"></div>
-        <div id="pillCountLive" class="pill"></div>
-        <div id="pillUpDownLive" class="pill"></div>
+      <div id="liveSetup" class="live-setup">
+        <input id="tituloLiveInput" class="input" type="text" placeholder="Título da live" maxlength="120" />
+        <button id="saveLiveBtn" class="live-save-btn" type="button">OK</button>
       </div>
-    </div>
 
-    <div class="buttons">
-      <button id="btnSubir" class="btn btn-up" type="button">⬆️ Subir</button>
-      <button id="btnDescer" class="btn btn-down" type="button">⬇️ Descer</button>
-    </div>
+      <div class="grid single">
+        <input id="nick" class="input" type="text" placeholder="Nick de quem doou" maxlength="60" />
+      </div>
 
-    <div class="action-tools">
-      <button id="applyManualBtn" class="btn btn-manual" type="button">🎯 Aplicar sensi manual</button>
-      <button id="clearFieldsBtn" class="btn btn-fields" type="button">🧹 Limpar campos</button>
-    </div>
+      <div class="grid three" style="margin-top:12px;">
+        <select id="tipo" class="select">
+          <option value="pix">PIX (R$)</option>
+          <option value="bits">Bits</option>
+        </select>
 
-    <div class="footer-buttons">
-      <button id="btnHistorico" class="btn btn-secondary" type="button">📜 Ver Histórico</button>
-    </div>
+        <input id="valor" class="input" type="number" min="0" step="0.01" placeholder="Valor" />
+        <input id="manualSensiInput" class="input" type="number" min="0" step="0.001" placeholder="Ajuste manual" />
+      </div>
 
-    <div class="status-box">
-      <div class="status-head">
-        <div class="status-label">Última ação</div>
-        <div class="status-tools">
-          <button id="copyLastActionBtn" class="tiny-btn" type="button">📋 Copiar</button>
-          <button id="copyPreviewBtn" class="tiny-btn" type="button">✨ Copiar prévia</button>
+      <div class="sensi-card">
+        <div class="metrics">
+          <div class="metric metric-current">
+            <div class="metric-label">Sensi atual</div>
+            <div id="atual" class="metric-value">0.000</div>
+          </div>
+
+          <div class="metric metric-prev">
+            <div class="metric-label">Anterior</div>
+            <div id="anterior" class="metric-value">0.000</div>
+          </div>
+        </div>
+
+        <div id="rulesLine" class="rules-line"></div>
+
+        <div id="rouletteActiveBar" class="roulette-active-bar">
+          <div class="roulette-active-title">Roleta ativa</div>
+          <div id="rouletteActiveText" class="roulette-active-text">Multiplicador ativo.</div>
+        </div>
+
+        <div id="previewIdle" class="preview-idle">Aguardando doação...</div>
+
+        <div id="previewLine" class="preview-line">
+          <div class="preview-box up">
+            <div class="preview-title">⬆️ Se subir</div>
+            <div id="previewUpValue" class="preview-value">0.000</div>
+            <div id="previewUpSub" class="preview-sub"></div>
+          </div>
+
+          <div class="preview-box down">
+            <div class="preview-title">⬇️ Se descer</div>
+            <div id="previewDownValue" class="preview-value">0.000</div>
+            <div id="previewDownSub" class="preview-sub"></div>
+          </div>
+        </div>
+
+        <div class="pill-row">
+          <div id="pillPix" class="pill"></div>
+          <div id="pillBits" class="pill"></div>
+          <div id="pillTotalLive" class="pill"></div>
+          <div id="pillCountLive" class="pill"></div>
+          <div id="pillUpDownLive" class="pill"></div>
         </div>
       </div>
-      <div id="statusText" class="status-text">Nenhuma alteração aplicada ainda.</div>
+
+      <div class="buttons">
+        <button id="btnSubir" class="btn btn-up" type="button">⬆️ Subir</button>
+        <button id="btnDescer" class="btn btn-down" type="button">⬇️ Descer</button>
+      </div>
+
+      <div class="action-tools">
+        <button id="applyManualBtn" class="btn btn-manual" type="button">🎯 Aplicar sensi manual</button>
+        <button id="clearFieldsBtn" class="btn btn-fields" type="button">🧹 Limpar campos</button>
+      </div>
+
+      <div class="footer-buttons">
+        <button id="btnHistorico" class="btn btn-secondary" type="button">📜 Ver Histórico</button>
+      </div>
+
+      <div class="status-box">
+        <div class="status-head">
+          <div class="status-label">Última ação</div>
+          <div class="status-tools">
+            <button id="copyLastActionBtn" class="tiny-btn" type="button">📋 Copiar</button>
+            <button id="copyPreviewBtn" class="tiny-btn" type="button">✨ Copiar prévia</button>
+          </div>
+        </div>
+        <div id="statusText" class="status-text">Nenhuma alteração aplicada ainda.</div>
+      </div>
     </div>
   </div>
 
@@ -1365,6 +1617,8 @@
   if (!Number.isFinite(sensiAnterior)) sensiAnterior = sensi;
 
   let rouletteState = carregarRoletaAtiva();
+  let rouletteCurrentRotation = Number(sessionStorage.getItem("rouletteCurrentRotation") || "0");
+  let rouletteIsSpinning = false;
 
   const atualEl = document.getElementById("atual");
   const anteriorEl = document.getElementById("anterior");
@@ -1383,6 +1637,14 @@
   const statusTextEl = document.getElementById("statusText");
   const rouletteActiveBarEl = document.getElementById("rouletteActiveBar");
   const rouletteActiveTextEl = document.getElementById("rouletteActiveText");
+
+  const rouletteWheelEl = document.getElementById("rouletteWheel");
+  const rouletteLabelsEl = document.getElementById("rouletteLabels");
+  const rouletteCenterBadgeEl = document.getElementById("rouletteCenterBadge");
+  const rouletteTriggerInfoEl = document.getElementById("rouletteTriggerInfo");
+  const rouletteStatusInfoEl = document.getElementById("rouletteStatusInfo");
+  const rouletteListEl = document.getElementById("rouletteList");
+  const rouletteWheelWrapEl = document.getElementById("rouletteWheelWrap");
 
   const tituloLiveInput = document.getElementById("tituloLiveInput");
   const liveTitleDisplay = document.getElementById("liveTitleDisplay");
@@ -1463,6 +1725,7 @@
     if (state) localStorage.setItem("rouletteStateSensi", JSON.stringify(state));
     else localStorage.removeItem("rouletteStateSensi");
     renderRoletaAtiva();
+    renderRoulettePanel();
   }
 
   function format3(value) {
@@ -1704,6 +1967,7 @@
       renderRegras();
       atualizarPreview();
       renderRoletaAtiva();
+      renderRoulettePanel();
       fecharSettings();
       statusTextEl.textContent = `Configurações salvas. Sensi atual definida para ${format3(sensi)}.`;
       atualizarMiniPlayer();
@@ -1729,35 +1993,154 @@
     return Number(rouletteState.multiplier || 1);
   }
 
+  function buildRouletteGradient(mults) {
+    if (!mults.length) {
+      return "conic-gradient(from -90deg, rgba(255,255,255,0.08) 0deg 360deg)";
+    }
+
+    const palette = [
+      "#8b5cf6", "#ec4899", "#0ea5e9", "#14b8a6",
+      "#f59e0b", "#ef4444", "#6366f1", "#22c55e"
+    ];
+
+    const step = 360 / mults.length;
+    const parts = mults.map((_, i) => {
+      const start = i * step;
+      const end = start + step;
+      return `${palette[i % palette.length]} ${start}deg ${end}deg`;
+    });
+
+    return `conic-gradient(from -90deg, ${parts.join(", ")})`;
+  }
+
+  function renderRouletteLabels(mults) {
+    rouletteLabelsEl.innerHTML = "";
+    if (!mults.length) return;
+
+    const step = 360 / mults.length;
+
+    mults.forEach((mult, i) => {
+      const angle = i * step + step / 2;
+      const label = document.createElement("div");
+      label.className = "roulette-label";
+      label.textContent = `${Number(mult).toFixed(2)}x`;
+      label.style.transform = `
+        translate(-50%, -50%)
+        rotate(${angle}deg)
+        translateY(-104px)
+        rotate(${-angle}deg)
+      `;
+      rouletteLabelsEl.appendChild(label);
+    });
+  }
+
+  function renderRoulettePanel() {
+    const mults = parseMultipliers(config.rouletteMultipliers);
+    rouletteWheelEl.style.background = buildRouletteGradient(mults);
+    rouletteWheelEl.style.transform = `rotate(${rouletteCurrentRotation}deg)`;
+    renderRouletteLabels(mults);
+
+    if (!config.rouletteEnabled) {
+      rouletteTriggerInfoEl.textContent = "Desativada";
+    } else {
+      rouletteTriggerInfoEl.textContent =
+        `${config.rouletteTriggerType === "bits" ? "Bits" : "PIX"} exato ${config.rouletteTriggerType === "bits" ? Number(config.rouletteTriggerValue) : "R$" + formatMoney(config.rouletteTriggerValue)}`;
+    }
+
+    const activeMult = getRoletaMultiplierAtual();
+    if (rouletteIsSpinning) {
+      rouletteCenterBadgeEl.innerHTML = "girando...";
+      rouletteWheelWrapEl.classList.add("spin-glow");
+    } else if (rouletteState && activeMult !== 1) {
+      rouletteCenterBadgeEl.innerHTML = `${Number(activeMult).toFixed(2)}x<br>ativo`;
+      rouletteWheelWrapEl.classList.remove("spin-glow");
+    } else {
+      rouletteCenterBadgeEl.innerHTML = config.rouletteEnabled ? "pronta<br>pra girar" : "roleta<br>off";
+      rouletteWheelWrapEl.classList.remove("spin-glow");
+    }
+
+    const remaining = rouletteState ? Math.max(0, Math.ceil((rouletteState.endsAt - Date.now()) / 1000)) : 0;
+    rouletteStatusInfoEl.textContent =
+      rouletteState && activeMult !== 1
+        ? `Multiplicador ${Number(activeMult).toFixed(2)}x ativo por mais ${remaining}s.`
+        : "Nenhum multiplicador ativo.";
+
+    rouletteListEl.innerHTML = mults.length
+      ? mults.map(mult => `
+          <div class="roulette-list-item ${rouletteState && Number(mult) === Number(rouletteState.multiplier) ? "active" : ""}">
+            <span>Multiplicador</span>
+            <strong>${Number(mult).toFixed(2)}x</strong>
+          </div>
+        `).join("")
+      : `<div class="history-empty">Sem multiplicadores definidos.</div>`;
+  }
+
   function renderRoletaAtiva() {
     const mult = getRoletaMultiplierAtual();
     if (mult === 1 || !rouletteState) {
       rouletteActiveBarEl.classList.remove("show");
       rouletteActiveTextEl.textContent = "";
+      renderRoulettePanel();
       return;
     }
 
     const restanteSeg = Math.max(0, Math.ceil((rouletteState.endsAt - Date.now()) / 1000));
     rouletteActiveBarEl.classList.add("show");
     rouletteActiveTextEl.textContent = `Multiplicador ${rouletteState.multiplier.toFixed(2)}x ativo por mais ${restanteSeg}s.`;
+    renderRoulettePanel();
   }
 
   function ativarRoletaPorDoacao(nick, valor, tipoDoacao) {
     const mults = parseMultipliers(config.rouletteMultipliers);
     if (!mults.length) return null;
 
-    const sorteado = mults[Math.floor(Math.random() * mults.length)];
+    const selectedIndex = Math.floor(Math.random() * mults.length);
+    const sorteado = mults[selectedIndex];
     const endsAt = Date.now() + (Number(config.rouletteDurationSec) * 1000);
 
-    salvarRoletaAtiva({
-      multiplier: sorteado,
-      endsAt,
-      activatedBy: nick,
-      triggerValue: valor,
-      triggerType: tipoDoacao
+    girarRoletaVisual(selectedIndex, mults.length, () => {
+      salvarRoletaAtiva({
+        multiplier: sorteado,
+        endsAt,
+        activatedBy: nick,
+        triggerValue: valor,
+        triggerType: tipoDoacao
+      });
+
+      statusTextEl.textContent = `${nick} ativou a roleta com ${montarDoacaoTexto(valor, tipoDoacao)} • multiplicador sorteado: ${Number(sorteado).toFixed(2)}x por ${config.rouletteDurationSec}s`;
+      atualizarMiniPlayer();
+      showToast(`Roleta: ${Number(sorteado).toFixed(2)}x`);
     });
 
     return sorteado;
+  }
+
+  function girarRoletaVisual(selectedIndex, totalItems, onFinish) {
+    if (!totalItems) {
+      if (typeof onFinish === "function") onFinish();
+      return;
+    }
+
+    rouletteIsSpinning = true;
+    renderRoulettePanel();
+
+    const step = 360 / totalItems;
+    const centerAngle = selectedIndex * step + step / 2;
+    const targetOffset = 360 - centerAngle;
+    const extraTurns = 360 * (5 + Math.floor(Math.random() * 2));
+
+    rouletteCurrentRotation = rouletteCurrentRotation + extraTurns + targetOffset + 90;
+    sessionStorage.setItem("rouletteCurrentRotation", String(rouletteCurrentRotation));
+
+    rouletteWheelEl.style.transition = "transform 5.4s cubic-bezier(0.12, 0.88, 0.15, 1)";
+    rouletteWheelEl.style.transform = `rotate(${rouletteCurrentRotation}deg)`;
+
+    clearTimeout(girarRoletaVisual._timer);
+    girarRoletaVisual._timer = setTimeout(() => {
+      rouletteIsSpinning = false;
+      renderRoulettePanel();
+      if (typeof onFinish === "function") onFinish();
+    }, 5450);
   }
 
   function calcularVariacao(valor, tipoDoacao) {
@@ -1944,10 +2327,6 @@
     }
 
     if (doacaoAtivaRoleta(valor, tipoDoacao)) {
-      const multiplicador = ativarRoletaPorDoacao(nick, valor, tipoDoacao);
-
-      statusTextEl.textContent = `${nick} ativou a roleta com ${montarDoacaoTexto(valor, tipoDoacao)} • multiplicador sorteado: ${Number(multiplicador).toFixed(2)}x por ${config.rouletteDurationSec}s`;
-
       const resultado = salvarRegistroNoHistorico({
         nick,
         valor,
@@ -1966,12 +2345,13 @@
         registro: resultado.registro
       });
 
+      ativarRoletaPorDoacao(nick, valor, tipoDoacao);
+
       renderHistory();
       renderRanking();
       atualizarPreview();
       renderRoletaAtiva();
       atualizarMiniPlayer();
-      showToast("Roleta ativada");
 
       if (config.limparValorAposAplicar) valorEl.value = "";
       if (!config.manterNickPreenchido) nickEl.value = "";
@@ -2165,7 +2545,7 @@
     if (doacaoAtivaRoleta(valor, tipoDoacao)) {
       return {
         valido: false,
-        texto: `Essa doação ativa a roleta (${tipoDoacao === "bits" ? "bits" : "PIX"}) em vez de alterar a sensi diretamente.`
+        texto: `Essa doação ativa a roleta (${tipoDoacao === "bits" ? "bits" : "PIX"}) e vai girar automaticamente.`
       };
     }
 
@@ -2854,6 +3234,7 @@
   renderPresetOptions();
   atualizarPreview();
   renderRoletaAtiva();
+  renderRoulettePanel();
   aplicarEstadoMiniPlayerInicial();
 </script>
 </body>
